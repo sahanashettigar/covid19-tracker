@@ -6,12 +6,16 @@ import Map from './Components/Map';
 import Table from './Components/Table';
 import LineGraph from './Components/LineGraph';
 import { sortData } from './util';
+import "leaflet/dist/leaflet.css";
 
 function App() {
   const [countries, setCountries] = useState([])
   const [country, setCountry] = useState('worldwide')
   const [countryinfo, setCountryinfo] = useState({});
   const [tableData,setTableData] = useState([]);
+  const [mapCenter,setMapCenter] = useState({lat:34.80746,lng:-40.4796});//center of pacific ocena
+  const [mapZoom,setMapZoom] = useState(3);//see entire map
+  const [mapCountries,setMapCountries]=useState([]);
   //useEffect - hook in react. runs code based on condition 
   useEffect(()=>{
     fetch('https://disease.sh/v3/covid-19/all')
@@ -37,6 +41,7 @@ function App() {
         const sortedData=sortData(data)
         setCountries(countries_new);
         setTableData(sortedData);
+        setMapCountries(data);
       });
     };
     getCountriesData();
@@ -44,12 +49,16 @@ function App() {
   const onCountryChange=async (event)=>{
     const countryCode=event.target.value;
     setCountry(countryCode);
-    const url=countryCode==='worldwide'?'https://disease.sh/v3/covid-19/all':
+    const url=countryCode==='worldwide'
+    ?'https://disease.sh/v3/covid-19/all':
     `https:disease.sh/v3/covid-19/countries/${countryCode}`
     await fetch(url)
     .then(response => response.json())
     .then((data)=>{
       setCountryinfo(data);
+      setCountry(countryCode);
+      setMapCenter([data.countryInfo.lat,data.countryInfo.long])
+      setMapZoom(4);
     });
     //https://disease.sh/v3/covid-19/all -> worldwide
     //https://disease.sh/v3/covid-19/countries/{countryname}
@@ -76,7 +85,7 @@ function App() {
       <InfoBox title='Recovered' total={countryinfo.recovered} cases={countryinfo.todayRecovered}></InfoBox>
       <InfoBox title='Deaths' total={countryinfo.deaths} cases={countryinfo.todayDeaths}></InfoBox>
     </div>
-    <Map></Map>
+    <Map countries={mapCountries} center={mapCenter} zoom={mapZoom}></Map>
     </div>
       <Card className="app__right"> 
       <CardContent>

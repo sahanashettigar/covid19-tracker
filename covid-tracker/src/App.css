@@ -24,7 +24,17 @@
   .app{
     flex-direction: column;
   }
+  .app__left{
+    margin-bottom: 10px;
+  }
 }
 body {
   background-color: #fcf9d1;
+  background-image: url("covidimg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.app__dropdown{
+  background-color: white;
 }

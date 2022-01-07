@@ -52,16 +52,18 @@ const options = {
 
 const buildChartData = (data, casesType) => {
   let chartData = [];
-  let lastDataPoint;
+  let lastDataPoint=0;
   for (let date in data.cases) {
+    //console.log(date,typeof(data.cases[date]))
     if (lastDataPoint) {
       let newDataPoint = {
         x: date,
-        y: data[casesType][date] - lastDataPoint,
+        y: data.cases[date] - lastDataPoint,
       };
       chartData.push(newDataPoint);
     }
-    lastDataPoint = data[casesType][date];
+    //console.log('here')
+    lastDataPoint = data.cases[date];
   }
   return chartData;
 };
@@ -71,15 +73,14 @@ function LineGraph({ casesType }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
+      await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=30")
         .then((response) => {
           return response.json();
         })
         .then((data) => {
+          //console.log(data)
           let chartData = buildChartData(data, casesType);
           setData(chartData);
-          console.log(chartData);
-          // buildChart(chartData);
         });
     };
 
@@ -93,6 +94,7 @@ function LineGraph({ casesType }) {
           data={{
             datasets: [
               {
+                label:"Number of active cases",
                 backgroundColor: "rgba(204, 16, 52, 0.5)",
                 borderColor: "#CC1034",
                 data: data,
