@@ -24,7 +24,7 @@ const casesTypeColors={
         hex:'#7dd71d',
         rgb:'rgb(125,215,29)',
         half_op:"rgba(125,215,29,0.5)",
-        multiplier:600,
+        multiplier:300,
     },
     deaths:{
         hex:'#fb4443',
@@ -38,8 +38,8 @@ export const showDataOnMap=(data,casesType='active')=>(
         <Circle 
         center={[country.countryInfo.lat, country.countryInfo.long]}
         fillOpacity={0.4}
-        color={casesTypeColors[casesType].hex}
-        fillColor={casesTypeColors[casesType].hex}
+        pathOptions={{color: casesTypeColors[casesType].hex,
+                     fillColor: casesTypeColors[casesType].hex }}
         radius={Math.sqrt(country[casesType])*casesTypeColors[casesType].multiplier}
         >
         <Popup>
@@ -54,3 +54,6 @@ export const showDataOnMap=(data,casesType='active')=>(
         </Circle>
     ))
 )
+export const prettyPrintStat=(stat)=>{
+    return stat?`+${numeral(stat).format("0.0a")}`:"+0"
+}

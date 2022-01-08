@@ -30,11 +30,30 @@
 }
 body {
   background-color: #fcf9d1;
-  background-image: url("covidimg.jpg");
+  /* background-image: url("covidimg.jpg");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
 }
 .app__dropdown{
   background-color: white;
+}
+.app__header > h1{
+  color:#660606 !important;
+  font-size:2rem
+}
+.app__right {
+  display: flex;
+  flex-direction: column;
+}
+.app__right .MuiCardContent-root{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.app__graph{
+  flex-grow:1
+}
+.app__graphTitle{
+  margin-top: 20px;
 }
