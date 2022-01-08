@@ -53,7 +53,7 @@ const options = {
 const buildChartData = (data, casesType) => {
   let chartData = [];
   let lastDataPoint=0;
-  for (let date in data.cases) {
+  for (let date in data[casesType]) {
     //console.log(date,typeof(data.cases[date]))
     if (lastDataPoint) {
       let newDataPoint = {
@@ -94,7 +94,7 @@ function LineGraph({ casesType,...props }) {
           data={{
             datasets: [
               {
-                label:"Number of active cases",
+                label:"Number of cases",
                 backgroundColor: "rgba(204, 16, 52, 0.5)",
                 borderColor: "#CC1034",
                 data: data,
